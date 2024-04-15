@@ -5,7 +5,11 @@
 
 /* ================================================================ */
 
-extern int read_file(const char* file_name, char** buffer); 
+extern int read_file(const char* file_name, char** buffer);
+
+/* ================================ */
+
+extern int extract_JSON_data(const cJSON* root, const char* name, cJSON_bool (*check)(const cJSON* const), cJSON** data);
 
 /* ================================================================ */
 

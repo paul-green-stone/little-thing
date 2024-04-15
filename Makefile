@@ -1,7 +1,7 @@
 # Object files location. Object files will be placed in this directory during compilation
 OBJDIR := objects
 # Full names of object files
-OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o)
+OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o)
 
 CC 							:= gcc
 CFLAGS						:= -g -c
@@ -37,7 +37,8 @@ TARGET_SHARED				:= $(LIB_PREFIX)$(LIB_NAME)$(DLL_SUFFIX)
 
 # ================================ #
 
-CORE						:= $(addprefix source/core/, core.c cJSON.c)
+CORE						:= $(addprefix source/core/, core.c)
+CJSON                       := $(addprefix source/core/, cJSON.c)
 
 # ================================================================ #
 
@@ -54,6 +55,10 @@ $(TARGET_SHARED): $(OBJECTS)
 # Core Module
 $(OBJDIR)/Core.o: $(CORE) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) $(CFLAGS) -o $@ $<
+
+# cJSON Module
+$(OBJDIR)/cJSON.o: $(CJSON) $(INCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #
 

@@ -40,4 +40,25 @@ int read_file(const char* file_name, char** buffer) {
     return 0;
 }
 
+/* ================================ */
+
+int extract_JSON_data(const cJSON* root, const char* name, cJSON_bool (*check)(const cJSON* const), cJSON** data) {
+
+    if (root == NULL) {
+        return 1;
+    }
+
+    if ((*data = cJSON_GetObjectItemCaseSensitive(root, name)) == NULL) {
+        return 1;
+    }
+
+    if (check(*data) != 1) {
+        return 1;
+    }
+
+    /* ======== */
+
+    return 0;
+}
+
 /* ================================================================ */
