@@ -1,0 +1,3 @@
+{
+    "SDLd": ["SDL_INIT_VIDEO", "SDL_INIT_EVENTS"]
+}

@@ -6,19 +6,12 @@
 /* ======================== TEST FUNCTIONS ======================== */
 /* ================================================================ */
 
-void read_file_test(void) {
+void LittleThing_init_test(void) {
 
-    char* file_content = NULL;
+    LittleThing_init();
 
-    if (read_file("test.txt", &file_content) != 0) {
-        return ;
-    }
-
-    CU_ASSERT_PTR_NOT_NULL(file_content);
-
-    CU_ASSERT_STRING_EQUAL(file_content, "Simple string\n");
-
-    free(file_content);
+    CU_ASSERT_EQUAL(SDL_WasInit(SDL_INIT_VIDEO), SDL_INIT_VIDEO);
+    CU_ASSERT_EQUAL(SDL_WasInit(SDL_INIT_EVENTS), SDL_INIT_EVENTS);
 }
 
 /* ================================================================ */
@@ -33,14 +26,14 @@ int main(int argc, char** argv) {
     }
 
     /* Add a suite to the registry */
-    if ((pSuite = CU_add_suite("read_file", NULL, NULL)) == NULL) {
+    if ((pSuite = CU_add_suite("LittleThing_init", NULL, NULL)) == NULL) {
 
         CU_cleanup_registry();
         return CU_get_error();
     }
 
     /* Add the tests to the suite */
-    if (CU_add_test(pSuite, "test of read_file", read_file_test) == NULL) {
+    if (CU_add_test(pSuite, "test of LittleThing_init", LittleThing_init_test) == NULL) {
 
         CU_cleanup_registry();
         return CU_get_error();
