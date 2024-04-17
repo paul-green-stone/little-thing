@@ -3,31 +3,36 @@ OBJDIR := objects
 # Full names of object files
 OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o)
 
-CC 							:= gcc
-CFLAGS						:= -g -c
-ALL_CFLAGS					:= $(CFLAGS) -Wall -Wextra -pedantic-errors -fPIC -O2 -lsdl2
+# C compiler
+CC := gcc
+# We are interested in onject files without linking them into an executable
+CFLAGS := -g -c
+ALL_CFLAGS := $(CFLAGS) -Wall -Wextra -pedantic-errors -fPIC -O2
 
-AR							:= ar
-ARFLAGS						:= -r -s
+# Additional libraries that need to be linked to the final executable
+LDFLAGS := -lSDL2
 
-OS_NAME						:= $(shell uname -s)
+AR := ar
+ARFLAGS := -r -s
 
-INCLUDE						:= $(wildcard include/*/*.h)
+OS_NAME := $(shell uname -s)
 
-LIB_NAME					:= littlething
+INCLUDE := $(wildcard include/*/*.h)
+
+LIB_NAME := littlething
 
 ifeq ($(OS_NAME), Linux)
-    LIB_PREFIX				:= lib
-    LIB_SUFFIX				:= .a
-    DLL_SUFFIX				:= .so
+    LIB_PREFIX := lib
+    LIB_SUFFIX := .a
+    DLL_SUFFIX := .so
 else ifeq ($(OS_NAME), Darwin)
-    LIB_PREFIX				:= lib
-    LIB_SUFFIX				:= .a
-    DLL_SUFFIX				:= .dylib
+    LIB_PREFIX := lib
+    LIB_SUFFIX := .a
+    DLL_SUFFIX := .dylib
 else ifeq ($(OS_NAME), MINGW32_NT-10.0)
-    LIB_PREFIX				:=
-    LIB_SUFFIX				:= .a
-    DLL_SUFFIX				:= .dll
+    LIB_PREFIX :=
+    LIB_SUFFIX := .a
+    DLL_SUFFIX := .dll
 else
     $(error Unsupported operating system)
 endif
@@ -48,7 +53,7 @@ $(TARGET_STATIC): $(OBJECTS)
 	$(AR) $(ARFLAGS) $(TARGET_STATIC) $^
 
 $(TARGET_SHARED): $(OBJECTS)
-	$(CC) -shared -o $@ $^
+	$(CC) -shared -o $@ $^ $(LDFLAGS)
 
 # ================================ #
 
