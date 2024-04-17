@@ -23,6 +23,10 @@ extern int cJSON_Parse_check(const char* buffer, cJSON** root);
 
 extern int LittleThing_init(void);
 
+/* ================================ */
+
+extern int LittleThing_quit(void);
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_CORE_H */

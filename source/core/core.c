@@ -74,6 +74,77 @@ static Uint32 SDL_Init_get_flags(const cJSON* root) {
 
 /* ================================================================ */
 
+static int create_default(const char* pathname) {
+
+    int status = 0;
+
+    FILE* file = NULL;
+
+    cJSON* root = NULL;
+    cJSON* SDL_flags = NULL;
+    cJSON* flag = NULL;
+
+    size_t i = 0;
+
+    char* flags[] = {"SDL_INIT_VIDEO", "SDL_INIT_AUDIO", "SDL_INIT_EVENTS", "SDL_INIT_TIMER"};
+    size_t size = sizeof(flags) / sizeof(flags[0]);
+
+    char* string = NULL;
+
+    /* ================================================================ */
+    /* ============================= SDL ============================== */
+    /* ================================================================ */
+
+    if ((root = cJSON_CreateObject()) == NULL) {
+        goto end;
+    }
+
+    if ((SDL_flags = cJSON_CreateArray()) == NULL) {
+        goto end;
+    }
+
+    cJSON_AddItemToObject(root, "SDL", SDL_flags);
+
+    for (; i < size; i++) {
+
+        if ((flag = cJSON_CreateString(flags[i])) == NULL) {
+            goto end;
+        }
+
+        cJSON_AddItemToArray(SDL_flags, flag);
+    }
+
+    /* ================================================================ */
+
+    if ((string = cJSON_Print(root)) == NULL) {
+        goto end;
+    }
+
+    if ((file = fopen(pathname, "w")) == NULL) {
+
+        status = errno;
+
+        char msg[128];
+
+        sprintf(msg, "a file (\033[0;34m%s\033[0;37m) cannot be created", pathname);
+
+        ERROR(msg);
+
+        goto end;
+    }
+
+    fprintf(file, "%s", string);
+
+    fclose(file);
+
+    /* ======== */
+
+    end:
+        cJSON_Delete(root);
+
+        return status;
+}
+
 /* ================================================================ */
 /* ============================ PUBLIC ============================ */
 /* ================================================================ */
@@ -167,6 +238,7 @@ int cJSON_Parse_check(const char* buffer, cJSON** root) {
 
 int LittleThing_init(void) {
 
+    const char* default_config_file = "config.json";
     char* buffer = NULL;
 
     cJSON* root = NULL;
@@ -177,13 +249,27 @@ int LittleThing_init(void) {
 
     /* ======== */
 
-    if ((status = read_file("../../configs.json", &buffer)) == ENOENT) {
+    if ((status = read_file(default_config_file, &buffer)) == ENOENT) {
 
         /* In case of absence of a configuration file, a new one will be created with default settings */
-        WARNING("missing configuration file");
+        WARNING("missing configuration file. Creating a default one ...");
+    }
 
-        /* Just return from the function now */
-        return (status = ENOENT);
+    if (status != 0) {
+
+        if ((status = create_default(default_config_file)) != 0) {
+
+            ERROR(strerror(errno));
+
+            goto end;
+        }
+
+        if ((status = read_file(default_config_file, &buffer)) != 0) {
+
+            ERROR(strerror(errno));
+
+            goto end;
+        }
     }
 
     if ((status = cJSON_Parse_check(buffer, &root)) != 0) {
@@ -204,6 +290,19 @@ int LittleThing_init(void) {
         cJSON_Delete(root);
 
         return status;
+}
+
+/* ================================================================ */
+
+int LittleThing_quit(void) {
+
+    int status = 0;
+
+    SDL_Quit();
+
+    /* ======== */
+
+    return status;
 }
 
 /* ================================================================ */

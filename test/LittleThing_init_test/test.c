@@ -12,6 +12,8 @@ void LittleThing_init_test(void) {
 
     CU_ASSERT_EQUAL(SDL_WasInit(SDL_INIT_VIDEO), SDL_INIT_VIDEO);
     CU_ASSERT_EQUAL(SDL_WasInit(SDL_INIT_EVENTS), SDL_INIT_EVENTS);
+
+    LittleThing_quit();
 }
 
 /* ================================================================ */
