@@ -9,6 +9,9 @@
 #include <errno.h>
 #include <SDL2/SDL.h>
 
+#include "window/window.h"
+#include "application/application.h"
+#include "globals.h"
 #include "core/cJSON.h"
 #include "core/core.h"
 

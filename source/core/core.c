@@ -4,6 +4,93 @@
 /* ============================ STATIC ============================ */
 /* ================================================================ */
 
+static Uint32 SDL_CreateWindow_map_flags(const char* name) {
+
+    static const struct {
+
+        const char* name;
+        Uint32 flag;
+
+    } SDL_CreateWindow_Flags[] = {
+        {"SDL_WINDOW_FULLSCREEN", SDL_WINDOW_FULLSCREEN},
+        {"SDL_WINDOW_OPENGL", SDL_WINDOW_OPENGL},
+        {"SDL_WINDOW_SHOWN", SDL_WINDOW_SHOWN},
+        {"SDL_WINDOW_HIDDEN", SDL_WINDOW_HIDDEN},
+        {"SDL_WINDOW_BORDERLESS", SDL_WINDOW_BORDERLESS},
+        {"SDL_WINDOW_RESIZABLE", SDL_WINDOW_RESIZABLE},
+        {"SDL_WINDOW_MINIMIZED", SDL_WINDOW_MAXIMIZED},
+        {"SDL_WINDOW_MOUSE_GRABBED", SDL_WINDOW_MOUSE_GRABBED},
+        {"SDL_WINDOW_INPUT_FOCUS", SDL_WINDOW_INPUT_FOCUS},
+        {"SDL_WINDOW_MOUSE_FOCUS", SDL_WINDOW_MOUSE_FOCUS},
+        {"SDL_WINDOW_FULLSCREEN_DESKTOP", ( SDL_WINDOW_FULLSCREEN | 0x00001000 )},
+        {"SDL_WINDOW_FOREIGN", SDL_WINDOW_FOREIGN},
+        {"SDL_WINDOW_ALLOW_HIGHDPI", SDL_WINDOW_ALLOW_HIGHDPI},
+        {"SDL_WINDOW_MOUSE_CAPTURE", SDL_WINDOW_MOUSE_CAPTURE},
+        {"SDL_WINDOW_ALWAYS_ON_TOP", SDL_WINDOW_ALWAYS_ON_TOP},
+        {"SDL_WINDOW_SKIP_TASKBAR", SDL_WINDOW_SKIP_TASKBAR},
+        {"SDL_WINDOW_UTILITY", SDL_WINDOW_UTILITY},
+        {"SDL_WINDOW_TOOLTIP", SDL_WINDOW_TOOLTIP},
+        {"SDL_WINDOW_POPUP_MENU", SDL_WINDOW_POPUP_MENU},
+        {"SDL_WINDOW_KEYBOARD_GRABBED", SDL_WINDOW_KEYBOARD_GRABBED},
+        {"SDL_WINDOW_VULKAN", SDL_WINDOW_VULKAN},
+        {"SDL_WINDOW_METAL", SDL_WINDOW_METAL},
+        {"SDL_WINDOW_INPUT_GRABBED", SDL_WINDOW_MOUSE_GRABBED}
+    };
+
+    static size_t size = sizeof(SDL_CreateWindow_Flags) / sizeof(SDL_CreateWindow_Flags[0]);
+
+    /* ======== */
+
+    size_t i = 0;
+
+    for (; i < size; i++) {
+
+        if (strcmp(name, SDL_CreateWindow_Flags[i].name) == 0) {
+            return SDL_CreateWindow_Flags[i].flag;
+        }
+    }
+
+    /* ======== */
+
+    return 0;
+}
+
+/* ================================================================ */
+
+static Uint32 SDL_CreateRenderer_map_flags(const char* name) {
+
+    static struct {
+
+        const char* name;
+        Uint32 flag;
+        
+    } SDL_CreateRenderer_Flags[] = {
+        {"SDL_RENDERER_SOFTWARE", SDL_RENDERER_SOFTWARE},
+        {'SDL_RENDERER_ACCELERATED', SDL_RENDERER_ACCELERATED},
+        {"SDL_RENDERER_PRESENTVSYNC", SDL_RENDERER_PRESENTVSYNC},
+        {"SDL_RENDERER_TARGETTEXTURE", SDL_RENDERER_TARGETTEXTURE}
+    };
+
+    static size_t size = sizeof(SDL_CreateRenderer_Flags) / sizeof(SDL_CreateRenderer_Flags[0]);
+
+    /* ======== */
+
+    size_t i = 0;
+
+    for (; i < size; i++) {
+
+        if (strcmp(name, SDL_CreateRenderer_Flags[i].name) == 0) {
+            return SDL_CreateRenderer_Flags[i].flag;
+        }
+    }
+
+    /* ======== */
+
+    return 0;
+}
+
+/* ================================================================ */
+
 static Uint32 SDL_Init_map_flag(const char* name) {
 
     static const struct {
