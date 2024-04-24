@@ -21,9 +21,6 @@ struct window_props {
 
     char title[BUFFER];
 
-    int x;
-    int y;
-
     /* width */
     int w;
     /* height */

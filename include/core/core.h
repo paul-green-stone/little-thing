@@ -27,6 +27,10 @@ extern int LittleThing_init(void);
 
 extern int LittleThing_quit(void);
 
+/* ================================ */
+
+extern int write_to_file(const cJSON* root, const char* name);
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_CORE_H */

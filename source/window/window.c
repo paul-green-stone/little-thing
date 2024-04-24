@@ -7,8 +7,6 @@ int Window_new(struct window_props* props, Window_t* window) {
     Window_t w = NULL;
 
     struct window_props def = {
-        .x = SDL_WINDOWPOS_CENTERED,
-        .y = SDL_WINDOWPOS_CENTERED,
 
         .w = 600,
         .h = 400,
@@ -27,7 +25,7 @@ int Window_new(struct window_props* props, Window_t* window) {
         return 1;
     }
 
-    if ((w->w = SDL_CreateWindow(props ? props->title : def.title, props ? props->x : def.x, props ? props->y : def.y, props ? props->w : def.w, props ? props->h : def.h, props ? props->w_flags : def.w_flags)) == NULL) {
+    if ((w->w = SDL_CreateWindow(props ? props->title : def.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, props ? props->w : def.w, props ? props->h : def.h, props ? props->w_flags : def.w_flags)) == NULL) {
 
         ERROR(SDL_GetError());
 
