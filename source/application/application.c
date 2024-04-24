@@ -16,6 +16,10 @@ int Application_new(struct window_props* props, App_t* app) {
         return 1;
     }
 
+    if (Timer_new(&a->timer) != 0) {
+        Application_destroy(&a);
+    }
+
     a->is_running = 1;
 
     *app = a;
@@ -34,6 +38,8 @@ int Application_destroy(App_t* app) {
     }
 
     Window_destroy(&(*app)->window);
+
+    Timer_destroy(&(*app)->timer);
 
     free(*app);
 

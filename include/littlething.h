@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <SDL2/SDL.h>
 
+#include "timer/timer.h"
 #include "window/window.h"
 #include "application/application.h"
 #include "globals.h"
