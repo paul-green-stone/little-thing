@@ -542,7 +542,7 @@ int LittleThing_init(void) {
 
     int status = 0;
 
-    struct window_props props;
+    struct window_props props = {.w_flags = 0, .r_flags = 0};
 
     /* ================================================================ */
     /* =============== Trying to read a `SDL.json` file =============== */

@@ -5,7 +5,7 @@
 
 #define WARNING(msg) fprintf(stderr, "\033[0;33m%s\033[0;37m: %s\n", "Warning", msg)
 
-#define ERROR(msg) fprintf(stderr, "\033[0;31m%s\033[0;37m: %s", "Error", msg)
+#define ERROR(msg) fprintf(stderr, "\033[0;31m%s\033[0;37m: %s\n", "Error", msg)
 
 /* ================================================================ */
 
