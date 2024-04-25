@@ -22,6 +22,8 @@ int Application_new(struct window_props* props, App_t* app) {
         Application_destroy(&a);
     }
 
+    Timer_set(a->timer, 1.0f / 60);
+
     a->is_running = 1;
 
     *app = a;

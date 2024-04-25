@@ -454,16 +454,14 @@ int read_file(const char* file_name, char** buffer) {
         return errno;
     }
 
-    /* ======== */
-
+    /* ====== Figuring out how many bytes of memory to allocate ======= */
     fseek(file, 0L, SEEK_END);
 
     number_of_bytes = ftell(file) + 1;
 
     fseek(file, 0L, SEEK_SET);
 
-    /* ======== */
-
+    /* ====================== Actual allocation ======================= */
     if ((*buffer = calloc(number_of_bytes, sizeof(char))) == NULL) {
 
         ERROR(strerror(errno));
@@ -473,6 +471,7 @@ int read_file(const char* file_name, char** buffer) {
         return errno;
     }
 
+    /* =================== Reading into the buffer ==================== */
     bytes_read = fread(*buffer, sizeof(char), number_of_bytes, file);
 
     *(*buffer + bytes_read) = '\0';
@@ -489,18 +488,22 @@ int read_file(const char* file_name, char** buffer) {
 int extract_JSON_data(const cJSON* root, const char* name, cJSON_bool (*check)(const cJSON* const), cJSON** data) {
 
     if (root == NULL) {
-        return 1;
+        return -1;
+    }
+
+    if (check == NULL) {
+        return -1;
     }
 
     if ((*data = cJSON_GetObjectItemCaseSensitive(root, name)) == NULL) {
 
         fprintf(stderr, "\033[0;31m%s\033[0;37m: there is no such element (\033[0;34m%s\033[0;37m) in the file\n", "Error", name);
 
-        return 1;
+        return -2;
     }
 
     if (check(*data) != 1) {
-        return 1;
+        return -1;
     }
 
     /* ======== */
@@ -511,8 +514,6 @@ int extract_JSON_data(const cJSON* root, const char* name, cJSON_bool (*check)(c
 /* ================================================================ */
 
 int cJSON_Parse_check(const char* buffer, cJSON** root) {
-
-    int status = 0;
     
     if ((*root = cJSON_Parse(buffer)) == NULL) {
 
@@ -522,10 +523,10 @@ int cJSON_Parse_check(const char* buffer, cJSON** root) {
             ERROR(error_ptr);
         }
 
-        status = 1;
+        return -1;
     }
 
-    return status;
+    return 0;
 }
 
 /* ================================================================ */
@@ -626,6 +627,8 @@ int LittleThing_quit(void) {
     int status = 0;
 
     SDL_Quit();
+
+    Application_destroy(&g_app);
 
     /* ======== */
 
