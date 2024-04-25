@@ -58,7 +58,7 @@ int Window_destroy(Window_t* window) {
 
     SDL_DestroyWindow((*window)->w);
 
-free(*window);
+    free(*window);
 
     *window = NULL;
 

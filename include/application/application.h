@@ -27,6 +27,10 @@ extern int Application_destroy(App_t* app);
 
 extern void App_run(const App_t app);
 
+/* ================================ */
+
+extern void App_handle_input(const App_t app);
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_APPLICATION_H */

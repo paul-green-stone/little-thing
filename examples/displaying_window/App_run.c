@@ -1,15 +1,6 @@
-#!/usr/local/bin/perl -w
+#include "../../include/littlething.h"
 
-use strict;
-
-# ================================================================ #
-# =========================== App_run ============================ #
-# ================================================================ #
-
-open (my $file, '>', 'App_run.c')
-    or die "Could not create `App_run.c` file: $!\n";
-
-my $file_content = "#include \"./include/littlething.h\"
+extern App_t g_app;
 
 /* ================================================================ */
 
@@ -30,6 +21,8 @@ void App_run(const App_t app) {
         /* ================================================================ */
 
         Timer_tick(a->timer);
+
+        /* ================================================================ */
 
         App_handle_input(a);
 
@@ -59,43 +52,3 @@ void App_run(const App_t app) {
 }
 
 /* ================================================================ */
-";
-
-print $file $file_content;
-
-close $file;
-
-# ================================================================ #
-# ======================= App_handle_input ======================= #
-# ================================================================ #
-
-open ($file, '>', 'App_handle_input.c')
-    or die "Could not create `App_run.c` file: $!\n";
-
-$file_content = "#include \"./include/littlething.h\"
-
-/* ================================================================ */
-
-void App_handle_input(const App_t app) {
-    
-    while (SDL_PollEvent(g_event)) {
-
-        switch (g_event->type) {
-
-            case SDL_QUIT:
-
-                app->is_running = !app->is_running;
-
-                break ;
-        }
-    }
-
-    return ;
-}
-";
-
-print $file $file_content;
-
-close $file;
-
-# ================================================================ #

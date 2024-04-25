@@ -1,5 +1,7 @@
 #include "../../include/littlething.h"
 
+App_t g_app = NULL;
+
 /* ================================================================ */
 
 int Application_new(struct window_props* props, App_t* app) {
