@@ -207,7 +207,7 @@ static int create_default_SDL(const char* pathname) {
     /* ====================== Writing to a file ======================= */
     /* ================================================================ */
 
-    if (write_to_file(root, pathname) != 0) {
+    if (write_to_file(cJSON_Print(root), pathname) != 0) {
 
         status = errno;
 
@@ -356,7 +356,9 @@ static int create_default_Application(const char* pathname) {
     /* ====================== Writing to a file ======================= */
     /* ================================================================ */
 
-    if (write_to_file(root, pathname) != 0) {
+
+
+    if (write_to_file(cJSON_Print(root), pathname) != 0) {
 
         status = errno;
 
@@ -637,20 +639,11 @@ int LittleThing_quit(void) {
 
 /* ================================================================ */
 
-int write_to_file(const cJSON* root, const char* name) {
+int write_to_file(const char* str, const char* name) {
 
     FILE* file = NULL;
-    char* string = NULL;
-
-    if (root == NULL) {
-        return -1;
-    }
 
     if (name == NULL) {
-        return -1;
-    }
-
-    if ((string = cJSON_Print(root)) == NULL) {
         return -1;
     }
 
@@ -658,7 +651,7 @@ int write_to_file(const cJSON* root, const char* name) {
         return errno;
     }
 
-    fprintf(file, "%s", string);
+    fprintf(file, "%s", str);
 
     fclose(file);
 

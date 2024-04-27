@@ -60,7 +60,7 @@ extern int LittleThing_quit(void);
 
 /* ================================ */
 
-extern int write_to_file(const cJSON* root, const char* name);
+extern int write_to_file(const char* str, const char* name);
 
 /* ================================================================ */
 
