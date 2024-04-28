@@ -3,7 +3,7 @@
 
 #include "../littlething.h"
 
-#define BUFFER 128
+#define TITLE_SIZE 128
 
 /* ================================ */
 
@@ -19,7 +19,7 @@ typedef struct window* Window_t;
 
 struct window_props {
 
-    char title[BUFFER];
+    char title[TITLE_SIZE];
 
     /* width */
     int w;
@@ -42,7 +42,5 @@ extern int Window_new(struct window_props* props, Window_t* window);
 extern int Window_destroy(Window_t* window);
 
 /* ================================================================ */
-
-#undef BUFFER
 
 #endif /* LITTLETHING_WINDOW_H */

@@ -1,6 +1,15 @@
 #include "../../include/littlething.h"
 
+/* ================================================================ */
+
+#define TITLE "Little Thing"
+
 SDL_Event g_event;
+
+SDL_Color color;
+SDL_Color* g_color = &color;
+
+App_t g_app = NULL;
 
 /* ================================================================ */
 /* ============================ STATIC ============================ */
@@ -246,7 +255,8 @@ static int create_default_Application(const char* pathname) {
 	        "width":	600,
 	        "height":	400,
 	        "window":	["SDL_WINDOW_SHOWN"],
-	        "renderer":	["SDL_RENDERER_ACCELERATED"]
+	        "renderer":	["SDL_RENDERER_ACCELERATED"],
+            "title": "Little Thing"
         }
     */
 
@@ -271,7 +281,7 @@ static int create_default_Application(const char* pathname) {
     /* Default window height */
     int height = 400;
 
-    cJSON* number = NULL;
+    cJSON* data = NULL;
 
     /* ================================================================ */
 
@@ -283,30 +293,43 @@ static int create_default_Application(const char* pathname) {
     }
 
     /* ================================================================ */
-    /* ======================= Creating `width` ======================= */
+    /* ======================= Creating `title` ======================= */
     /* ================================================================ */
 
-    if ((number = cJSON_CreateNumber(width)) == NULL) {
+    if ((data = cJSON_CreateString(TITLE)) == NULL) {
         
         status = -1;
 
         goto end;
     }
 
-    cJSON_AddItemToObject(root, "width", number);
+    cJSON_AddItemToObject(root, "title", data);
+
+    /* ================================================================ */
+    /* ======================= Creating `width` ======================= */
+    /* ================================================================ */
+
+    if ((data = cJSON_CreateNumber(width)) == NULL) {
+        
+        status = -1;
+
+        goto end;
+    }
+
+    cJSON_AddItemToObject(root, "width", data);
 
     /* ================================================================ */
     /* ====================== Creating `height` ======================= */
     /* ================================================================ */
 
-    if ((number = cJSON_CreateNumber(height)) == NULL) {
+    if ((data = cJSON_CreateNumber(height)) == NULL) {
         
         status = -1;
 
         goto end;
     }
 
-    cJSON_AddItemToObject(root, "height", number);
+    cJSON_AddItemToObject(root, "height", data);
 
     /* ================================================================ */
     /* =================== Creating `window` array ==================== */
@@ -402,6 +425,11 @@ static int get_props(struct window_props* props, const cJSON* root) {
     if (props == NULL) {
         return -1;
     }
+
+    /* ====================== Retrieving `title` ====================== */
+    extract_JSON_data(root, "title", cJSON_IsNumber, &data);
+    /* If the element is missing, default values are used. HARDCODED FOR NOW */
+    strncpy(props->title, data->valuestring, TITLE_SIZE - 1);
 
     /* ====================== Retrieving `width` ====================== */
     extract_JSON_data(root, "width", cJSON_IsNumber, &data);
@@ -612,6 +640,8 @@ int LittleThing_init(void) {
     if ((status = Application_new(&props, &g_app)) != 0) {
         goto end;
     }
+
+    RGBA_color_SET(255, 255, 255, 255);
 
     /* ======== */
 

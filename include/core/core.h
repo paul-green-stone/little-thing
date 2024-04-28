@@ -10,6 +10,32 @@
 /* ================================================================ */
 
 /**
+ * Set color in RGBA format.
+ * 
+ * \param[in] red amount of red
+ * \param[in] green amount of green
+ * \param[in] blue amount of blue
+ * \param[in] alpha amount of alpha channel
+ */
+#define RGBA_color_SET(red, green, blue, alpha) \
+    *g_color = (SDL_Color) {red, green, blue, alpha}; \
+    SDL_SetRenderDrawColor(g_app->window->r, red, green, blue, alpha)
+
+/* ================================================================ */
+
+/**
+ * Set color in RGBA format.
+ * 
+ * \param[in] color color in hexadecimal format
+ * \param[in] alpha amount of alpha channel
+ */
+#define HEX_color_SET(color, alpha) \
+    *g_color = (SDL_Color) {(color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, alpha}; \
+    SDL_SetRenderDrawColor(g_app->window->r, g_color->r, g_color->g, g_color->b, g_color->a)
+
+/* ================================================================ */
+
+/**
  * The function allocates memory for a buffer and reads a file content into it.
  * It's the user who is responsible for freeing the buffer after the work is done.
  * 

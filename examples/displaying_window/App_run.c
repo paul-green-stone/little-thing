@@ -12,6 +12,19 @@
 
         a = (app == NULL) ? g_app : app;
 
+        int colors[3] = {
+            0xff0000,
+            0x00ff00,
+            0x0000ff,
+        };
+
+        Timer_t color_timer = NULL;
+        Timer_new(&color_timer);
+        Timer_set(color_timer, 0.5f);
+        int i = 0;
+
+        HEX_color_SET(colors[i], 0xff);
+
         while (a->is_running) {
 
             /* ================================================================ */
@@ -19,13 +32,13 @@
             /* ================================================================ */
 
             Timer_tick(a->timer);
+            Timer_tick(color_timer);
 
             App_handle_input(a);
 
             if (Timer_is_ready(a->timer)) {
                 
                 /* Clear the window */
-                SDL_SetRenderDrawColor(a->window->r, 0xff, 0xff, 0xff, 0xff);
                 SDL_RenderClear(a->window->r);
 
                 /* ================================================================ */
@@ -36,12 +49,19 @@
                 /* ================================================================ */
                 /* ================================================================ */
 
-                SDL_SetRenderDrawColor(a->window->r, 0xff, 0x00, 0x00, 0xff);
-
                 SDL_RenderPresent(a->window->r);
 
                 Timer_reset(a->timer);
             }
+
+            if (Timer_is_ready(color_timer)) {
+
+                    i = (i == 2) ? 0 : i + 1;
+
+                    HEX_color_SET(colors[i], 0xff);
+
+                    Timer_reset(color_timer);
+                }
         }
 
         return ;

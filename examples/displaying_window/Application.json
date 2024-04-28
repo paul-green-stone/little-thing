@@ -1,4 +1,5 @@
 {
+	"title":	"A Simple Game",
 	"width":	600,
 	"height":	400,
 	"window":	["SDL_WINDOW_SHOWN"],
