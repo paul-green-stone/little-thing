@@ -16,6 +16,7 @@
 #include "timer/timer.h"
 #include "window/window.h"
 #include "application/application.h"
+#include "input/input.h"
 
 /* ================================================================ */
 

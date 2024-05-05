@@ -1,7 +1,7 @@
 # Object files location. Object files will be placed in this directory during compilation
 OBJDIR := objects
 # Full names of object files
-OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o)
+OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o)
 
 # C compiler
 CC := gcc
@@ -42,14 +42,16 @@ TARGET_SHARED				:= $(LIB_PREFIX)$(LIB_NAME)$(DLL_SUFFIX)
 
 # ================================ #
 
-CORE						:= $(addprefix source/core/, core.c)
-CJSON                       := $(addprefix source/core/, cJSON.c)
+CORE := $(addprefix source/core/, core.c)
+CJSON := $(addprefix source/core/, cJSON.c)
 
 WINDOW := $(addprefix source/window/, window.c)
 
 APPLICATION := $(addprefix source/application/, application.c)
 
 TIMER := $(addprefix source/timer/, timer.c)
+
+INPUT := $(addprefix source/input/, input.c)
 
 # ================================================================ #
 
@@ -81,6 +83,10 @@ $(OBJDIR)/Application.o: $(APPLICATION) $(INCLUDE)
 
 # Timer Module
 $(OBJDIR)/Timer.o: $(TIMER) $(INCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# Input Module
+$(OBJDIR)/Input.o: $(INPUT) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #

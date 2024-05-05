@@ -4,7 +4,8 @@
 
 #define TITLE "Little Thing"
 
-SDL_Event g_event;
+SDL_Event event;
+SDL_Event* g_event = &event;
 
 SDL_Color color;
 SDL_Color* g_color = &color;

@@ -29,55 +29,55 @@ my $file_content;
 {
     $file_content = "#include \"./include/littlething.h\"
 
-    /* ================================================================ */
+/* ================================================================ */
 
-    void App_run(const App_t app) {
+void App_run(const App_t app) {
 
-        App_t a = NULL;
+    App_t a = NULL;
 
-        if ((app == NULL) && (g_app == NULL)) {
-            return ;
-        }
-
-        a = (app == NULL) ? g_app : app;
-
-        while (a->is_running) {
-
-            /* ================================================================ */
-            /* ===================== Update timers here  ====================== */
-            /* ================================================================ */
-
-            Timer_tick(a->timer);
-
-            App_handle_input(a);
-
-            if (Timer_is_ready(a->timer)) {
-                
-                /* Clear the window */
-                SDL_SetRenderDrawColor(a->window->r, 0xff, 0xff, 0xff, 0xff);
-                SDL_RenderClear(a->window->r);
-
-                /* ================================================================ */
-                /* ===================== User code goes here  ===================== */
-                /* ================================================================ */
-
-                /* ================================================================ */
-                /* ================================================================ */
-                /* ================================================================ */
-
-                SDL_SetRenderDrawColor(a->window->r, 0xff, 0x00, 0x00, 0xff);
-
-                SDL_RenderPresent(a->window->r);
-
-                Timer_reset(a->timer);
-            }
-        }
-
+    if ((app == NULL) && (g_app == NULL)) {
         return ;
     }
 
-    /* ================================================================ */
-    ";
+    a = (app == NULL) ? g_app : app;
+
+    while (a->is_running) {
+
+        /* ================================================================ */
+        /* ===================== Update timers here  ====================== */
+        /* ================================================================ */
+
+        Timer_tick(a->timer);
+
+        /* ================================================================ */
+
+        App_handle_input(a);
+
+        if (Timer_is_ready(a->timer)) {
+                
+            /* Clear the window */
+            RGBA_color_SET(255, 255, 255, 255);
+            SDL_RenderClear(a->window->r);
+
+            /* ================================================================ */
+            /* ===================== User code goes here  ===================== */
+            /* ================================================================ */
+
+            /* ================================================================ */
+            /* ================================================================ */
+            /* ================================================================ */
+
+            SDL_RenderPresent(a->window->r);
+
+            Timer_reset(a->timer);
+        }
+    }
+
+    return ;
+}
+
+/* ================================================================ */
+";
 }
 
 print $file $file_content;
@@ -92,25 +92,34 @@ open ($file, '>', 'App_handle_input.c')
 {
     $file_content = "#include \"./include/littlething.h\"
 
-    /* ================================================================ */
+/* ================================================================ */
 
-    void App_handle_input(const App_t app) {
+void App_handle_input(const App_t app) {
         
-        while (SDL_PollEvent(&g_event)) {
+    while (SDL_PollEvent(g_event)) {
 
-            switch (g_event.type) {
+        switch (g_event->type) {
 
-                case SDL_QUIT:
+            case SDL_QUIT:
 
-                    app->is_running = !app->is_running;
+                app->is_running = !app->is_running;
 
-                    break ;
-            }
+                break ;
+
+            /* ================================ */
+
+            default:
+                break ;
         }
-
-        return ;
     }
-    ";
+
+    memcpy(app->p_frame, (Uint8*) app->c_frame, MAX_KEYBOARD_KEYS);
+    memcpy(app->c_frame, (Uint8*) SDL_GetKeyboardState(NULL), MAX_KEYBOARD_KEYS);
+}
+
+/* ================================================================ */
+
+";
 }
 
 print $file $file_content;

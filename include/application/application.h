@@ -3,6 +3,8 @@
 
 #include "../littlething.h"
 
+#define MAX_KEYBOARD_KEYS 256
+
 /* ================================ */
 
 struct application {
@@ -11,6 +13,11 @@ struct application {
     Timer_t timer;
 
     int is_running;
+
+    /* Current frame */
+    Uint8 c_frame[MAX_KEYBOARD_KEYS];
+    /* Previous frame */
+    Uint8 p_frame[MAX_KEYBOARD_KEYS];
 };
 
 typedef struct application* App_t;
