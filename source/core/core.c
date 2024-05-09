@@ -4,11 +4,9 @@
 
 #define TITLE "Little Thing"
 
-SDL_Event event;
-SDL_Event* g_event = &event;
+SDL_Event* g_event = NULL;
 
-SDL_Color color;
-SDL_Color* g_color = &color;
+SDL_Color* g_color = NULL;
 
 App_t g_app = NULL;
 
@@ -77,6 +75,19 @@ struct mapping SDL_Init_Flags[] = {
     {"SDL_INIT_NOPARACHUTE", SDL_INIT_NOPARACHUTE}
 };
 
+/* ================================ */
+
+/* The lookup table for `IMG_Iit` flags */
+
+struct mapping IMG_Init_Flags[] = {
+    {"IMG_INIT_AVIF", IMG_INIT_AVIF},
+    {"IMG_INIT_JPG", IMG_INIT_JPG},
+    {"IMG_INIT_JXL", IMG_INIT_JXL},
+    {"IMG_INIT_PNG", IMG_INIT_PNG},
+    {"IMG_INIT_TIF", IMG_INIT_TIF},
+    {"IMG_INIT_WEBP", IMG_INIT_WEBP},
+};
+
 /* ================================================================ */
 /* ================================================================ */
 /* ================================================================ */
@@ -139,7 +150,7 @@ static Uint32 SDL_Init_get_flags(const cJSON* root) {
     /* ======== */
 
     /* Obtaining the `SDLf` array from the `root` object */
-    if (extract_JSON_data(root, "SDLf", cJSON_IsArray, &array) != 0) {
+    if (extract_JSON_data(root, "SDL", cJSON_IsArray, &array) != 0) {
         return SDL_flags;
     }
 
@@ -162,6 +173,53 @@ static Uint32 SDL_Init_get_flags(const cJSON* root) {
 /* ================================================================ */
 
 /**
+ * The function retrieves the flags required for the `IMG_Init` function to initialize the necessary subsystems.
+ * These flags are extracted from a `cJSON` object,
+ * which is obtained by reading a `.json` file into a buffer and parsing the buffer.
+ * Subsequently, the function returns the bitwise OR (|) of the flags after mapping
+ * their string equivalents to the corresponding SDL macros.
+ * 
+ * \param[in] root a string parsed by the `cJSON_Parse` function
+ * 
+ * \return The function returns the bitwise OR (|) of the flags after mapping their string equivalents to the corresponding SDL macros, or 0 if an error occurs. This result is used for initializing the default SDL subsystems.
+ */
+static int IMG_Init_get_flags(const cJSON* root) {
+    /* Flags to be returned */
+    int IMG_flags = 0;
+
+    /* In the `.json` file, the `SDL_Init` flags are stored in an array named `SDLf` */
+    cJSON* array = NULL;
+    /* Number of flags in the array */
+    size_t array_size = 0;
+
+    size_t i = 0;
+
+    /* ======== */
+
+    /* Obtaining the `SDLf` array from the `root` object */
+    if (extract_JSON_data(root, "IMG", cJSON_IsArray, &array) != 0) {
+        return IMG_flags;
+    }
+
+    array_size = cJSON_GetArraySize(array);
+
+    for (; i < array_size; i++) {
+
+        /* Retrieve the next element from the given array */
+        cJSON* array_element = cJSON_GetArrayItem(array, i);
+
+        /* Map a string to its equivalent flag */
+        IMG_flags |= SDL_lookup_flag(IMG_Init_Flags, array_element->valuestring, sizeof(IMG_Init_Flags) / sizeof(IMG_Init_Flags[0]));
+    }
+
+    /* ======== */
+
+    return IMG_flags;
+}
+
+/* ================================================================ */
+
+/**
  * Creates a default `.json` file containing SDL flags to be used in initialization.
  * 
  * \param[in] pathname name of the file
@@ -173,7 +231,8 @@ static int create_default_SDL(const char* pathname) {
     /* That's how the result file will look like */
     /*
         {
-            "SDLf: ["SDL_INIT_VIDEO", "SDL_INIT_AUDIO", "SDL_INIT_EVENTS", "SDL_INIT_TIMER]"
+            "SDLf": ["SDL_INIT_VIDEO", "SDL_INIT_AUDIO", "SDL_INIT_EVENTS", "SDL_INIT_TIMER"],
+            "IMGf": ["IMG_INIT_PNG"]
         }
     */
 
@@ -189,6 +248,9 @@ static int create_default_SDL(const char* pathname) {
     char* flags[] = {"SDL_INIT_VIDEO", "SDL_INIT_AUDIO", "SDL_INIT_EVENTS", "SDL_INIT_TIMER"};
     size_t size = sizeof(flags) / sizeof(flags[0]);
 
+    /* The list of default subsystems to be added to the file */
+    char* IMG_flags[] = {"IMG_INIT_PNG"};
+
     /* = Creating a root object as a container for dependent elements = */
     if ((root = cJSON_CreateObject()) == NULL) {
         goto end;
@@ -202,11 +264,32 @@ static int create_default_SDL(const char* pathname) {
         goto end;
     }
 
-    cJSON_AddItemToObject(root, "SDLf", SDL_flags);
+    cJSON_AddItemToObject(root, "SDL", SDL_flags);
 
-    for (; i < size; i++) {
+    for (i = 0; i < size; i++) {
 
         if ((flag = cJSON_CreateString(flags[i])) == NULL) {
+            goto end;
+        }
+
+        cJSON_AddItemToArray(SDL_flags, flag);
+    }
+
+    /* ================================================================ */
+    /* ============================= IMG ============================== */
+    /* ================================================================ */
+
+    size = sizeof(IMG_flags) / sizeof(IMG_flags[0]);
+
+    if ((SDL_flags = cJSON_CreateArray()) == NULL) {
+        goto end;
+    }
+
+    cJSON_AddItemToObject(root, "IMG", SDL_flags);
+
+    for (i = 0; i < size; i++) {
+
+        if ((flag = cJSON_CreateString(IMG_flags[i])) == NULL) {
             goto end;
         }
 
@@ -571,10 +654,33 @@ int LittleThing_init(void) {
     cJSON* root = NULL;
 
     Uint32 SDL_flags;
+    int IMG_flags;
 
     int status = 0;
 
     struct window_props props = {.w_flags = 0, .r_flags = 0};
+
+    /* ================================================================ */
+    /* =============== Creating a global color variable =============== */
+    /* ================================================================ */
+
+    if ((g_color = calloc(1, sizeof(SDL_Color))) == NULL) {
+
+        ERROR(strerror(errno));
+
+        return -1;
+    }
+
+    /* ================================================================ */
+    /* =============== Creating a global event variable =============== */
+    /* ================================================================ */
+
+    if ((g_event = calloc(1, sizeof(SDL_Event))) == NULL) {
+
+        ERROR(strerror(errno));
+
+        return -1;
+    }
 
     /* ================================================================ */
     /* =============== Trying to read a `SDL.json` file =============== */
@@ -606,6 +712,18 @@ int LittleThing_init(void) {
     if ((status = SDL_Init(SDL_flags)) != 0) {
 
         ERROR(SDL_GetError());
+
+        goto end;
+    }
+
+    IMG_flags = IMG_Init_get_flags(root);
+
+    /* ======================= Initializing IMG ======================= */
+    if ((IMG_Init(IMG_flags)) != IMG_flags) {
+
+        status = -1;
+
+        ERROR(IMG_GetError());
 
         goto end;
     }
@@ -659,9 +777,13 @@ int LittleThing_quit(void) {
 
     int status = 0;
 
+    IMG_Quit();
     SDL_Quit();
 
     Application_destroy(&g_app);
+
+    free(g_color);
+    free(g_event);
 
     /* ======== */
 

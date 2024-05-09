@@ -74,6 +74,8 @@ int Texture_destroy(Texture_t* t) {
     return 0;
 }
 
+/* ================================ */
+
 int Texture_display(const Texture_t t, SDL_Rect* src, SDL_Rect* dest) {
 
     if (t == NULL) {

@@ -3,7 +3,7 @@ CC := gcc
 CFLAGS := -g
 ALL_CFLAGS := -Wall -Wextra -pedantic-errors -O2
 
-LDFLAGS := -lSDL2
+LDFLAGS := -lSDL2 -lSDL2_image
 
 PROG := a.out
 

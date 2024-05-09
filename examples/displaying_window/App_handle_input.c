@@ -4,9 +4,9 @@
 
     void App_handle_input(const App_t app) {
         
-        while (SDL_PollEvent(&g_event)) {
+        while (SDL_PollEvent(g_event)) {
 
-            switch (g_event.type) {
+            switch (g_event->type) {
 
                 case SDL_QUIT:
 
