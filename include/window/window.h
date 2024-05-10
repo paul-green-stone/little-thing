@@ -41,6 +41,10 @@ extern int Window_new(struct window_props* props, Window_t* window);
 
 extern int Window_destroy(Window_t* window);
 
+/* ================================ */
+
+extern int Window_draw_grid(Window_t window, int width, int height);
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_WINDOW_H */

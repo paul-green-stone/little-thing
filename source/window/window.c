@@ -68,3 +68,37 @@ int Window_destroy(Window_t* window) {
 }
 
 /* ================================================================ */
+
+int Window_draw_grid(Window_t window, int width, int height) {
+
+    int window_width;
+    int window_height;
+
+    size_t rows;
+    size_t columns;
+
+    size_t i = 0;
+
+    if (window == NULL) {
+        return -1;
+    }
+
+    SDL_GetWindowSize(window->w, &window_width, &window_height);
+
+    rows = window_height / height;
+    columns = window_width / width;
+
+    /* ======================= Drawing columns ======================== */
+    for (i = 1; i < columns; i++) {
+        SDL_RenderDrawLine(window->r, i * width, 0, i * width, window_height);
+    }
+
+    /* ========================= Drawing rows ========================= */
+    for (i = 1; i < rows; i++) {
+        SDL_RenderDrawLine(window->r, 0, i * height, window_width, i * height);
+    }
+
+    return 0;
+}
+
+/* ================================================================ */

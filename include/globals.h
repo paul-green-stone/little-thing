@@ -11,6 +11,9 @@ extern SDL_Event* g_event;
 
 extern SDL_Color* g_color;
 
+extern int m_x;
+extern int m_y;
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_GLOBALS_H */

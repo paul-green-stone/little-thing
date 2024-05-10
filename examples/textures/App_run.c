@@ -105,7 +105,6 @@ void App_run(const App_t app) {
 
             Texture_display(current, NULL, &dest);
 
-            RGBA_color_SET(255, 0, 0, 255);
             Texture_display(ent.texture, NULL, &r);
 
             /* ================================================================ */

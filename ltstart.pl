@@ -92,6 +92,9 @@ open ($file, '>', 'App_handle_input.c')
 {
     $file_content = "#include \"./include/littlething.h\"
 
+int m_x;
+int m_y;
+
 /* ================================================================ */
 
 void App_handle_input(const App_t app) {
@@ -115,6 +118,8 @@ void App_handle_input(const App_t app) {
 
     memcpy(app->p_frame, (Uint8*) app->c_frame, MAX_KEYBOARD_KEYS);
     memcpy(app->c_frame, (Uint8*) SDL_GetKeyboardState(NULL), MAX_KEYBOARD_KEYS);
+    
+    SDL_GetMouseState(&m_x, &m_y);
 }
 
 /* ================================================================ */
