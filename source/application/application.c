@@ -23,6 +23,7 @@ int Application_new(struct window_props* props, App_t* app) {
     Timer_set(a->timer, 1.0f / 60);
 
     a->is_running = 1;
+    a->mouse_state = 0;
 
     *app = a;
 

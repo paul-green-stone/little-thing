@@ -14,6 +14,8 @@ struct application {
 
     int is_running;
 
+    int mouse_state;
+
     /* Current frame */
     Uint8 c_frame[MAX_KEYBOARD_KEYS];
     /* Previous frame */
