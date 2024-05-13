@@ -22,7 +22,7 @@ extern int SDL_Rect_match(void* data1, void* data2);
 
 /* ================================================================ */
 
-extern void SDL_Rect_connect(const sList_t list, int w, int h);
+extern void SDL_Rect_connect(const sList_t list);
 
 /* ================================================================ */
 
