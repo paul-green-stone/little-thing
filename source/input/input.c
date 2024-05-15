@@ -23,4 +23,20 @@ int key_is_pressed(int scancode) {
 
 /* ================================ */
 
+int mbtn_just_pressed(int btn) {
+
+    /* Check if the given button has been pressed */
+    if ((g_app->mouse_state >> btn) & 1) {
+
+        /* Clear the button state that has just been pressed */
+        g_app->mouse_state &= ~(1 << btn);
+
+        return 1;
+    }
+
+    /* ======== */
+
+    return 0;
+}
+
 /* ================================================================ */

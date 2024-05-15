@@ -23,11 +23,8 @@ void App_handle_input(const App_t app) {
             /* ================================ */
 
             case SDL_MOUSEBUTTONDOWN:
-
-                if (g_event->button.button == SDL_BUTTON_LEFT) {
                 
-                    app->mouse_state |= 1 << SDL_BUTTON_LEFT;
-                }
+                MBTN_PRESS(SDL_BUTTON_LEFT);
 
                 break ;
 

@@ -3,6 +3,10 @@
 
 #include "../littlething.h"
 
+#define MBTN_PRESS(btn) \
+    do { if (g_event->button.button == (btn)) { g_app->mouse_state |= 1 << (btn); } } \
+    while (0)
+
 /* ================================================================ */
 
 /**
@@ -35,6 +39,10 @@ extern int key_just_released(int scancode);
  * \return 1 if the key was pressed, 0 otherwise
  */
 extern int key_is_pressed(int scancode);
+
+/* ================================ */
+
+extern int mbtn_just_pressed(int btn);
 
 /* ================================================================ */
 

@@ -40,7 +40,7 @@ void App_run(const App_t app) {
 
         App_handle_input(a);
         
-        if (((g_app->mouse_state >> SDL_BUTTON_LEFT) & 1)) {
+        if (mbtn_just_pressed(SDL_BUTTON_LEFT)) {
 
             transform(m_x, m_y, 20, 20, &res_x, &res_y);
 
@@ -54,8 +54,10 @@ void App_run(const App_t app) {
             else {
                 sList_delete_Node(list, node, &data);
             }
-            
-            g_app->mouse_state &= ~(1 << SDL_BUTTON_LEFT);
+        }
+
+        if (mbtn_just_pressed(SDL_BUTTON_RIGHT)) {
+            printf("Right mouse button has been pressed\n");
         }
 
         if (Timer_is_ready(a->timer)) {
