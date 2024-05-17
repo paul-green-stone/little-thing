@@ -69,7 +69,7 @@ int Window_destroy(Window_t* window) {
 
 /* ================================================================ */
 
-int Window_draw_grid(Window_t window, int width, int height) {
+int Window_draw_grid(Window_t window, int width, int height, int edge) {
 
     int window_width;
     int window_height;
@@ -88,13 +88,18 @@ int Window_draw_grid(Window_t window, int width, int height) {
     rows = window_height / height;
     columns = window_width / width;
 
+    if (edge == GRID_EDGE) {
+        rows += 1;
+        columns += 1;
+    }
+
     /* ======================= Drawing columns ======================== */
-    for (i = 1; i < columns; i++) {
+    for (i = (edge == GRID_EDGE) ? 0 : 1; i < columns; i++) {
         SDL_RenderDrawLine(window->r, i * width, 0, i * width, window_height);
     }
 
     /* ========================= Drawing rows ========================= */
-    for (i = 1; i < rows; i++) {
+    for (i = (edge == GRID_EDGE) ? 0 : 1; i < rows; i++) {
         SDL_RenderDrawLine(window->r, 0, i * height, window_width, i * height);
     }
 

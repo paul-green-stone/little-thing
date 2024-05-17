@@ -75,7 +75,7 @@ void App_run(const App_t app) {
 
             /* Drawing a grid */
             RGBA_color_SET(0, 255, 0, 100);
-            Window_draw_grid(a->window, cell_w, cell_h);
+            Window_draw_grid(a->window, cell_w, cell_h, GRID_EDGE);
 
             RGBA_color_SET(0, 0, 255, 255);
             SDL_Rect_connect(list);

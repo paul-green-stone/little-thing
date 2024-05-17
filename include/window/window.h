@@ -5,6 +5,9 @@
 
 #define TITLE_SIZE 128
 
+#define GRID_EDGE 1
+#define GRID_NO_EDGE 0
+
 /* ================================ */
 
 struct window {
@@ -43,7 +46,7 @@ extern int Window_destroy(Window_t* window);
 
 /* ================================ */
 
-extern int Window_draw_grid(Window_t window, int width, int height);
+extern int Window_draw_grid(Window_t window, int width, int height, int edge);
 
 /* ================================================================ */
 
