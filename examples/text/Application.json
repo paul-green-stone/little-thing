@@ -1,0 +1,7 @@
+{
+	"title":	"Displaying Text",
+	"width":	500,
+	"height":	500,
+	"window":	["SDL_WINDOW_SHOWN"],
+	"renderer":	["SDL_RENDERER_ACCELERATED"]
+}

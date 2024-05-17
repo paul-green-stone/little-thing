@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "types.h"
 #include "globals.h"
@@ -19,6 +20,7 @@
 #include "application/application.h"
 #include "input/input.h"
 #include "texture/texture.h"
+#include "text/text.h"
 
 /* ================================================================ */
 

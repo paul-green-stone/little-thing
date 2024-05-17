@@ -730,6 +730,16 @@ int LittleThing_init(void) {
 
     free(buffer);
 
+    /* ======================= Initializing TTF ======================= */
+    if (TTF_Init() == -1) {
+
+        status = -1;
+
+        ERROR(TTF_GetError());
+
+        goto end;
+    }
+
     /* ================================================================ */
     /* =========== Trying to read a `Application.json` file =========== */
     /* ================================================================ */
@@ -778,6 +788,7 @@ int LittleThing_quit(void) {
     int status = 0;
 
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
 
     Application_destroy(&g_app);

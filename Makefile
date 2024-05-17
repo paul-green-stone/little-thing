@@ -1,7 +1,7 @@
 # Object files location. Object files will be placed in this directory during compilation
 OBJDIR := objects
 # Full names of object files
-OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o)
+OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o)
 
 # C compiler
 CC := gcc
@@ -10,7 +10,7 @@ CFLAGS := -g -c
 ALL_CFLAGS := $(CFLAGS) -Wall -Wextra -pedantic-errors -fPIC -O2
 
 # Additional libraries that need to be linked to the final executable
-LDFLAGS := -lSDL2 -lSDL2_image
+LDFLAGS := -lSDL2 -lSDL2_image -lSDL2_ttf
 
 AR := ar
 ARFLAGS := -r -s
@@ -37,8 +37,8 @@ else
     $(error Unsupported operating system)
 endif
 
-TARGET_STATIC				:= $(LIB_PREFIX)$(LIB_NAME)$(LIB_SUFFIX)
-TARGET_SHARED				:= $(LIB_PREFIX)$(LIB_NAME)$(DLL_SUFFIX)
+TARGET_STATIC := $(LIB_PREFIX)$(LIB_NAME)$(LIB_SUFFIX)
+TARGET_SHARED := $(LIB_PREFIX)$(LIB_NAME)$(DLL_SUFFIX)
 
 # ================================ #
 
@@ -54,6 +54,8 @@ TIMER := $(addprefix source/timer/, timer.c)
 INPUT := $(addprefix source/input/, input.c)
 
 TEXTURE := $(addprefix source/texture/, texture.c)
+
+TEXT := $(addprefix source/text/, text.c)
 
 # ================================================================ #
 
@@ -93,6 +95,10 @@ $(OBJDIR)/Input.o: $(INPUT) $(INCLUDE)
 
 # Texture Module
 $(OBJDIR)/Texture.o: $(TEXTURE) $(INCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# text Module
+$(OBJDIR)/Text.o: $(TEXT) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #
