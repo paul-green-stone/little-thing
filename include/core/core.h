@@ -88,6 +88,10 @@ extern int LittleThing_quit(void);
 
 extern int write_to_file(const char* str, const char* name);
 
+/* ================================ */
+
+extern int draw_grid(const Window_t w, int c_w, int c_h, SDL_Rect* dimensions);
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_CORE_H */

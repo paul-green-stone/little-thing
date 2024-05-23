@@ -1,0 +1,7 @@
+{
+	"title":	"Life in The Bigger World",
+	"width":	600,
+	"height":	400,
+	"window":	["SDL_WINDOW_SHOWN"],
+	"renderer":	["SDL_RENDERER_ACCELERATED"]
+}

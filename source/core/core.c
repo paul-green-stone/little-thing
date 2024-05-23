@@ -825,3 +825,34 @@ int write_to_file(const char* str, const char* name) {
 }
 
 /* ================================================================ */
+
+int draw_grid(const Window_t w, int c_w, int c_h, SDL_Rect* dimensions) {
+
+    if (w == NULL) {
+        return -1;
+    }
+
+    int rows = 0;
+    int columns = 0;
+
+    rows = dimensions->h / c_h;
+    columns = dimensions->w / c_w;
+
+    size_t i = 0;
+
+    /* ======================= Drawing columns ======================== */
+    for (i = 0; i <= columns; i++) {
+        SDL_RenderDrawLine(w->r, dimensions->x + (i * c_w), dimensions->y, dimensions->x + (i * c_w), dimensions->y + dimensions->h);
+    }
+
+    /* ========================= Drawing rows ========================= */
+    for (i = 0; i <= rows; i++) {
+        SDL_RenderDrawLine(w->r, dimensions->x, dimensions->y + (i * c_h), dimensions->x + dimensions->w, dimensions->y + (i * c_h));
+    }
+
+    /* ======== */
+
+    return 0;
+}
+
+/* ================================================================ */

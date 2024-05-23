@@ -21,6 +21,7 @@
 #include "input/input.h"
 #include "texture/texture.h"
 #include "text/text.h"
+#include "camera/camera.h"
 
 /* ================================================================ */
 

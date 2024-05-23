@@ -1,7 +1,7 @@
 # Object files location. Object files will be placed in this directory during compilation
 OBJDIR := objects
 # Full names of object files
-OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o)
+OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o Camera.o)
 
 # C compiler
 CC := gcc
@@ -57,6 +57,8 @@ TEXTURE := $(addprefix source/texture/, texture.c)
 
 TEXT := $(addprefix source/text/, text.c)
 
+CAMERA := $(addprefix source/camera/, camera.c)
+
 # ================================================================ #
 
 all: $(TARGET_STATIC) $(TARGET_SHARED)
@@ -97,8 +99,12 @@ $(OBJDIR)/Input.o: $(INPUT) $(INCLUDE)
 $(OBJDIR)/Texture.o: $(TEXTURE) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
-# text Module
+# Text Module
 $(OBJDIR)/Text.o: $(TEXT) $(INCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# Camera Module
+$(OBJDIR)/Camera.o: $(CAMERA) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #

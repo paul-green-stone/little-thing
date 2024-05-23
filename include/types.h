@@ -5,6 +5,8 @@
 
 typedef struct application* App_t;
 
+typedef struct window* Window_t;
+
 /* ================================================================ */
 
 #endif /* LITTLETHING_TYPES_H */
