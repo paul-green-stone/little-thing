@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <math.h>
 
 #include "types.h"
 #include "globals.h"
@@ -22,6 +23,8 @@
 #include "texture/texture.h"
 #include "text/text.h"
 #include "camera/camera.h"
+#include "Math/math.h"
+#include "entity/entity.h"
 
 /* ================================================================ */
 

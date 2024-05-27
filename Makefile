@@ -1,7 +1,9 @@
 # Object files location. Object files will be placed in this directory during compilation
 OBJDIR := objects
 # Full names of object files
-OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o Camera.o)
+OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o Camera.o Math.o)
+
+MATHOBJS := $(addprefix $(OBJDIR)/, Vector2.o)
 
 # C compiler
 CC := gcc
@@ -18,6 +20,7 @@ ARFLAGS := -r -s
 OS_NAME := $(shell uname -s)
 
 INCLUDE := $(wildcard include/*/*.h)
+MATHINCLUDE := $(wildcard include/Math/*/*.h)
 
 LIB_NAME := littlething
 
@@ -58,6 +61,10 @@ TEXTURE := $(addprefix source/texture/, texture.c)
 TEXT := $(addprefix source/text/, text.c)
 
 CAMERA := $(addprefix source/camera/, camera.c)
+
+# ================ #
+
+VECTOR2 := $(addprefix source/Math/vector2/, vector2.c)
 
 # ================================================================ #
 
@@ -105,6 +112,13 @@ $(OBJDIR)/Text.o: $(TEXT) $(INCLUDE)
 
 # Camera Module
 $(OBJDIR)/Camera.o: $(CAMERA) $(INCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# =============== #
+$(OBJDIR)/Math.o: $(MATHOBJS)
+	ld -r -o $@ $^
+
+$(OBJDIR)/Vector2.o: $(VECTOR2) $(MATHINCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #
