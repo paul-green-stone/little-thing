@@ -5,13 +5,25 @@
 
 /* ================================ */
 
-struct vector_2 {
+typedef struct vector_2 {
 
     float x;
     float y;
-};
+} Vector2;
+
+typedef struct vector_2 Point2;
 
 typedef struct vector_2* Vector2_t;
+
+/* ================================================================ */
+
+#define __v2_debug(v) (Vector2_debug(#v, v))
+
+#define Vector2_NULL(v) (Vector2_new(0.f, 0.f, v))
+
+/* ================================================================ */
+
+extern void Vector2_debug(const char* name, const Vector2_t v);
 
 /* ================================================================ */
 
@@ -55,11 +67,27 @@ extern int Vector2_rotate(Vector2_t v, float degrees);
 
 /* ================================================================ */
 
+extern int Vector2_rotate_90(Vector2_t v);
+
+/* ================================================================ */
+
 extern int Vector2_dot(const Vector2_t v1, const Vector2_t v2, float* result); 
 
 /* ================================================================ */
 
 extern int Vector2_angle_between(const Vector2_t v1, const Vector2_t v2, float* result);
+
+/* ================================================================ */
+
+extern int Vector2_is_collide_Vector2(const Vector2_t v1, const Vector2_t v2);
+
+/* ================================================================ */
+
+extern int Vectors2_is_parallel(const Vector2_t v1, const Vector2_t v2);
+
+/* ================================================================ */
+
+extern int Vector2_is_equal(const Vector2_t v1, const Vector2_t v2);
 
 /* ================================================================ */
 

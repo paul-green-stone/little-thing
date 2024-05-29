@@ -181,17 +181,23 @@ int Vector2_rotate(Vector2_t v, float degrees) {
     float sine = 0;
     float cosine = 0;
 
+    float x;
+    float y;
+
     if (v == NULL) {
         return -1;
     }
+
+    x = v->x;
+    y = v->y;
 
     radian = deg2rad(degrees);
 
     sine = sinf(radian);
     cosine = cosf(radian);
 
-    v->x = v->x * cosine - v->y * sine;
-    v->y = v->x * sine + v->y * cosine;
+    v->x = x * cosine - y * sine;
+    v->y = x * sine + y * cosine;
 
     /* ======== */
 
@@ -201,7 +207,6 @@ int Vector2_rotate(Vector2_t v, float degrees) {
 /* ================================================================ */
 
 int Vector2_dot(const Vector2_t v1, const Vector2_t v2, float* result) {
-
 
     if ((v1 == NULL) || (v2 == NULL)) {
         return -1;
@@ -243,6 +248,94 @@ int Vector2_angle_between(const Vector2_t v1, const Vector2_t v2, float* result)
     /* ======== */
 
     return 0;
+}
+
+/* ================================================================ */
+
+int Vector2_is_collide_Vector2(const Vector2_t v1, const Vector2_t v2) {
+
+    if ((v1 == NULL) || (v2 == NULL)) {
+        return 0;
+    }
+
+    /* ======== */
+
+    return float_is_equal(v1->x, v2->x) && float_is_equal(v1->y, v2->y);
+}
+
+/* ================================================================ */
+
+int Vector2_rotate_90(Vector2_t v) {
+
+    float x;
+    float y;
+
+    if (v == NULL) {
+        return -1;
+    }
+
+    x = v->x;
+    y = v->y;
+
+    v->x = -y;
+    v->y = x;
+
+    /* ======== */
+
+    return 0;
+}
+
+/* ================================================================ */
+
+int Vectors2_is_parallel(const Vector2_t v1, const Vector2_t v2) {
+
+    Vector2 temp;
+    float dot = 0;
+
+    if ((v1 == NULL) || (v2 == NULL)) {
+        return 0;
+    }
+
+    temp.x = v1->x;
+    temp.y = v1->y;
+
+    Vector2_rotate_90(&temp);
+    Vector2_dot(&temp, v2, &dot);
+
+    /* ======== */
+
+    return float_is_equal(0.0f, dot);
+}
+
+/* ================================================================ */
+
+int Vector2_is_equal(const Vector2_t v1, const Vector2_t v2) {
+
+    if ((v1 == NULL) || (v2 == NULL)) {
+        return 0;
+    }
+
+    /* ======== */
+
+    return float_is_equal(v1->x - v2->x, 0) && float_is_equal(v1->y - v2->y, 0);
+}
+
+/* ================================================================ */
+
+void Vector2_debug(const char* name, const Vector2_t v) {
+
+    Vector2 temp;
+
+    if (v == NULL) {
+        return ;
+    }
+
+    Vector2_normalize(v, &temp);
+
+    printf("%s->x = %.2f\t", name, v->x);
+    printf("%s->y = %.2f\n", name, v->y);
+    printf("%s length: %.2f\n", name, Vector2_length(v));
+    printf("unit vector is: [%.2f; %.2f]\n\n", temp.x, temp.y);
 }
 
 /* ================================================================ */

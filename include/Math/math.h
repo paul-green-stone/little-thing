@@ -11,9 +11,18 @@
 
 #define rad2deg(radian) (((radian) * 180.0f) / PI)
 
+/* ================================ */
+
+#define Point2_is_collide_Point2(p1, p2) (Vector2_is_collide_Vector2(p1, p2))
+
 /* ================================================================ */
 
 #include "vector2/vector2.h"
+#include "shapes2/line2.h"
+
+/* ================================================================ */
+
+extern int float_is_equal(float f1, float f2);
 
 /* ================================================================ */
 

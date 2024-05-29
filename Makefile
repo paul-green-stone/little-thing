@@ -3,7 +3,7 @@ OBJDIR := objects
 # Full names of object files
 OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o Camera.o Math.o)
 
-MATHOBJS := $(addprefix $(OBJDIR)/, Vector2.o)
+MATHOBJS := $(addprefix $(OBJDIR)/, math.o Vector2.o Line2.o)
 
 # C compiler
 CC := gcc
@@ -64,7 +64,11 @@ CAMERA := $(addprefix source/camera/, camera.c)
 
 # ================ #
 
+MATH := $(addprefix source/Math/, math.c)
+
 VECTOR2 := $(addprefix source/Math/vector2/, vector2.c)
+
+LINE2 := $(addprefix source/Math/line2/, line2.c)
 
 # ================================================================ #
 
@@ -115,10 +119,19 @@ $(OBJDIR)/Camera.o: $(CAMERA) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # =============== #
+
 $(OBJDIR)/Math.o: $(MATHOBJS)
 	ld -r -o $@ $^
 
+$(OBJDIR)/math.o: $(MATH) $(MATHINCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# Vector2 Module
 $(OBJDIR)/Vector2.o: $(VECTOR2) $(MATHINCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# Line2 Module
+$(OBJDIR)/Line2.o: $(LINE2) $(MATHINCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #

@@ -22,46 +22,22 @@ void App_run(const App_t app) {
     /* =================== Define variables here  ===================== */
     /* ================================================================ */
 
-    Vector2_t v1 = NULL;
-    Vector2_t v2 = NULL;
+    Point2 base_1 = {100, 100};
+    Point2 base_2 = {100, 110};
 
-    Vector2_new(3, 1, &v1);
-    Vector2_new(0, -2, &v2);
+    Line2_t l1 = NULL;
+    Line2_new(base_1.x, base_1.y, 100, 100, &l1);
 
-    printf("v1: [%.2f; %.2f]\n", v1->x, v1->y);
-    printf("v2: [%.2f; %.2f]\n", v2->x, v2->y);
+    Line2_t l2 = NULL;
+    Line2_new(base_2.x, base_2.y, 100, 100, &l2);
 
-    // Vector2_div_scalar(v1, 2, v1);
-    // printf("v1: [%.2f; %.2f]\n", v1->x, v1->y);
+    printf("l1 and l2 collide (?) : %d\n", Lines2_is_collide(l1, l2));
+    printf("l1 and l2 are equivalent (?) : %d\n", Lines2_is_equivalent(l1, l2));
 
-    // Vector2_sub(v1, v2, v1);
-    // printf("v1: [%.2f; %.2f]\n", v1->x, v1->y);
+    float angle;
+    Vector2_angle_between(&l1->direction, &l2->direction, &angle);
 
-    // Vector2_negate(v1);
-    // printf("Negation of v1: [%.2f; %.2f]\n", v1->x, v1->y);
-
-    // Vector2_div_scalar(v1, 0.5, v1);
-    // printf("Scalar multiplicatin of v1: [%.2f; %.2f]\n", v1->x, v1->y);
-
-    struct vector_2 n;
-    Vector2_normalize(v1, &n);
-    printf("Normalized v1: [%.2f; %.2f]\n", n.x, n.y);
-    printf("Original v1: [%.2f; %.2f]\n", v1->x, v1->y);
-
-    // Vector2_rotate(v1, -10.f);
-    // printf("After rotating v1 by 10 degrees: [%.2f; %.2f]\n", v1->x, v1->y);
-
-    printf("v1 length is: %.2f\n", Vector2_length(v1));
-    printf("v2 length is: %.2f\n", Vector2_length(v2));
-
-    float dot = 0;
-    Vector2_dot(v1, v2, &dot);
-    printf("The dot product of v1 and v2 is %.2f\n", dot);
-
-    float r = 0;
-    Vector2_angle_between(v1, v2, &r);
-
-    printf("Angel between v1 and v2 is %.2f\n", r);
+    printf("Angle between l1 and l2: %.2f\n", angle);
 
     while (a->is_running) {
 
@@ -85,6 +61,12 @@ void App_run(const App_t app) {
             /* ================= User draw functions go here  ================= */
             /* ================================================================ */
 
+            RGBA_color_SET(255, 0, 0, 255);
+            Line2_draw(l1, 10);
+
+            RGBA_color_SET(0, 255, 0, 255);
+            Line2_draw(l2, 10);
+
             /* ================================================================ */
             /* ================================================================ */
             /* ================================================================ */
@@ -95,8 +77,8 @@ void App_run(const App_t app) {
         }
     }
 
-    Vector2_destroy(&v1);
-    Vector2_destroy(&v2);
+    Line2_destroy(&l1);
+    Line2_destroy(&l2);
 
     return ;
 }

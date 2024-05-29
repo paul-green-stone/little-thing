@@ -18,7 +18,7 @@
  * \param[in] alpha amount of alpha channel
  */
 #define RGBA_color_SET(red, green, blue, alpha) \
-    *g_color = (SDL_Color) {red, green, blue, alpha}; \
+    g_color->r = red; g_color->g = green; g_color->b = blue; g_color->a = alpha; \
     SDL_SetRenderDrawColor(g_app->window->r, red, green, blue, alpha)
 
 /* ================================================================ */
