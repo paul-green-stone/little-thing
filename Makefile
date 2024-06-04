@@ -1,14 +1,14 @@
 # Object files location. Object files will be placed in this directory during compilation
 OBJDIR := objects
 # Full names of object files
-OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o Camera.o Math.o)
+OBJECTS	:= $(addprefix $(OBJDIR)/, Core.o cJSON.o Window.o Application.o Timer.o Input.o Texture.o Text.o Camera.o Math.o Entity.o)
 
-MATHOBJS := $(addprefix $(OBJDIR)/, math.o Vector2.o Line2.o)
+MATHOBJS := $(addprefix $(OBJDIR)/, math.o Vector2.o Rect2.o Line_2.o Shapes_2.o)
 
 # C compiler
 CC := gcc
 # We are interested in onject files without linking them into an executable
-CFLAGS := -g -c
+CFLAGS := -std=c11 -g -c
 ALL_CFLAGS := $(CFLAGS) -Wall -Wextra -pedantic-errors -fPIC -O2
 
 # Additional libraries that need to be linked to the final executable
@@ -62,13 +62,19 @@ TEXT := $(addprefix source/text/, text.c)
 
 CAMERA := $(addprefix source/camera/, camera.c)
 
+ENTITY := $(addprefix source/entity/, entity.c)
+
 # ================ #
 
 MATH := $(addprefix source/Math/, math.c)
 
 VECTOR2 := $(addprefix source/Math/vector2/, vector2.c)
 
-LINE2 := $(addprefix source/Math/line2/, line2.c)
+RECT2 := $(addprefix source/Math/rect2/, rect2.c)
+
+LINE_2 := $(addprefix source/Math/shapes_2/line_2/, line_2.c)
+
+SHAPES_2 := $(addprefix source/Math/shapes_2/, shape_2.c)
 
 # ================================================================ #
 
@@ -118,6 +124,10 @@ $(OBJDIR)/Text.o: $(TEXT) $(INCLUDE)
 $(OBJDIR)/Camera.o: $(CAMERA) $(INCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
+# Entity Module
+$(OBJDIR)/Entity.o: $(ENTITY) $(INCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
 # =============== #
 
 $(OBJDIR)/Math.o: $(MATHOBJS)
@@ -130,8 +140,16 @@ $(OBJDIR)/math.o: $(MATH) $(MATHINCLUDE)
 $(OBJDIR)/Vector2.o: $(VECTOR2) $(MATHINCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
-# Line2 Module
-$(OBJDIR)/Line2.o: $(LINE2) $(MATHINCLUDE)
+# Line_2 Module
+$(OBJDIR)/Line_2.o: $(LINE_2) $(MATHINCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# Rect2 Module
+$(OBJDIR)/Rect2.o: $(RECT2) $(MATHINCLUDE)
+	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
+
+# Shapes_2 Module
+$(OBJDIR)/Shapes_2.o: $(SHAPES_2) $(MATHINCLUDE)
 	$(CC) $(ALL_CFLAGS) -o $@ $< $(CFLAGS)
 
 # ================================================================ #
